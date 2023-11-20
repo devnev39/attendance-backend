@@ -2,14 +2,14 @@ import os
 from dotenv import load_dotenv
 from fastapi import FastAPI,Form,UploadFile,File
 from pydantic import BaseModel
-import mysql.connector
+from mysql import connector as connector
 import cv2
 import numpy as np
 import face_recognition
 
 load_dotenv()
 
-cnx = mysql.connector.connect(host = os.environ['HOST'],user=os.environ['USRNAME'],passwd=os.environ['PASSWD'],database=os.environ['DBNAME'])
+cnx = connector.connect(host = os.environ['HOST'],user=os.environ['USRNAME'],passwd=os.environ['PASSWD'],database=os.environ['DBNAME'])
 print(cnx)
 cursor = cnx.cursor()
 
@@ -23,7 +23,7 @@ app = FastAPI()
 
 def connectDatabase():
     global cnx
-    cnx = mysql.connector.connect(host = os.environ['HOST'],user=os.environ['USRNAME'],passwd=os.environ['PASSWD'],database=os.environ['DBNAME'])
+    cnx = connector.connect(host = os.environ['HOST'],user=os.environ['USRNAME'],passwd=os.environ['PASSWD'],database=os.environ['DBNAME'])
 
 def fetchAllData():
     global data
