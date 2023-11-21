@@ -7,8 +7,8 @@ COPY .env /app
 RUN pip install -r req.txt
 RUN pip install mysql-connector
 COPY . /app
-
-CMD [ "uvicorn","app:app","--reload","--host","0.0.0.0" ]
+EXPOSE 8080
+CMD [ "uvicorn","app:app","--reload","--host","0.0.0.0","--port","8080" ]
 
 # FROM python:3.9 as pystage
 
