@@ -62,11 +62,14 @@ def recognizeUser(image : bytes = File()):
     try:
         img = cv2.imdecode(np.asarray(bytearray(image),dtype="uint8"),cv2.IMREAD_COLOR)
         images = [cv2.imdecode(np.asarray(bytearray(e[2]),dtype="uint8"),cv2.IMREAD_COLOR) for e in data]
-        result = [face_recognition.compare_faces([face_recognition.face_encodings(img)[0]],face_recognition.face_encodings(e)[0],tolerance=0.4)[0] for e in images]
-        print(result)
+        face_distances = face_recognition.face_distance([face_recognition.face_encodings(e)[0] for e in images],face_recognition.face_encodings(img)[0])
+        result_ind = np.argmin(face_distances)
+
+        # result = [face_recognition.compare_faces([face_recognition.face_encodings(img)[0]],face_recognition.face_encodings(e)[0],tolerance=0.1)[0] for e in images]
+        print(result_ind)
         print([e[0] for e in data])
-        index = result.index(True)
-        user = {"email" : data[index][0],"name" : data[index][1]}
+        # index = result.index(True)
+        user = {"email" : data[result_ind][0],"name" : data[result_ind][1]}
         return {"status" : 200,"data" : user}
     except Exception as e:
         print(e)
